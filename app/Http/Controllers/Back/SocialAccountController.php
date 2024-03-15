@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Models\AccessToken;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
@@ -22,6 +23,14 @@ class SocialAccountController extends Controller
     public function callback($provider)
     {
         $user = Socialite::driver($provider)->user();
-        dd($user);
+        $token = $user->token;
+        AccessToken::create([
+            'token' => $token,
+            "type" => $provider,
+            "user_id" => 1
+        ])
+
     }
+
+
 }
