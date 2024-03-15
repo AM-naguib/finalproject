@@ -22,6 +22,7 @@ class SocialAccountController extends Controller
 
     public function callback($provider)
     {
+        dd($provider);
         $user = Socialite::driver("twitter")->user();
 
         if ($provider == "facebook") {
