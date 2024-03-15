@@ -23,12 +23,23 @@ class SocialAccountController extends Controller
     public function callback($provider)
     {
         $user = Socialite::driver($provider)->user();
-        $token = $user->token;
-        AccessToken::create([
-            'token' => $token,
-            "type" => $provider,
-            "user_id" => 1
-        ]);
+        dd($user);
+        if ($provider == "facebook") {
+            $token = $user->token;
+            AccessToken::create([
+                'token' => $token,
+                "type" => $provider,
+                "user_id" => 1
+            ]);
+        }else{
+            $token = $user->token;
+            AccessToken::create([
+                'token' => $token,
+                'token' => $token,
+                "type" => $provider,
+                "user_id" => 1
+            ]);
+        }
         dd("done");
     }
 
