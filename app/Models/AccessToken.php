@@ -10,6 +10,7 @@ class AccessToken extends Model
     use HasFactory;
     protected $fillable = [
         'token',
+        'token_secret',
         "user_id",
         "type"
     ];
