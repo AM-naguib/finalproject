@@ -29,7 +29,7 @@ class SocialAccountController extends Controller
 
 
         $user = Socialite::driver("facebook")->user();
-dd($user);
+        dd($user);
         if ($provider == "facebook") {
             $token = $user->token;
             AccessToken::create([
@@ -52,7 +52,7 @@ dd($user);
 
     public function fbGroups()
     {
-        $accessToken = 'EAADROllKAewBO0IZBwkNBaSFeUwve22HYv4aWKSeV3kJvVkUGlWPW9ZAYcIZBuvgT79rbmanSaQvAGvk8N52zxTY3BchA0fdlZAnx0hT84K3qTzaXQFMm0ZAI7ZCjqcZC7va8s1x044rSYejtu7ZAGAkX8OZCX31nVWAL9xYzHDMZCq1Dzwuf0jewqquEVHs9fzeDQD8lAOurlZB8MyiTtnjQZDZD';
+        $accessToken = 'EAADROllKAewBOZC1jSDvaly4GvkCvW6rl4us57wCVQMrZCYJeilNlphrgTZASlBIti8QewPqevg0ImJtBmZBFIrm23sO5EDIp6Dv4RaOD0x4eiN303Or2ZARIqEyafGInjCBpD7cZAmU8TEFTTABT0LxItslZAj';
         $url = "https://graph.facebook.com/v18.0/me?fields=groups&access_token=$accessToken";
         $response = $this->makeRequest($url);
         $data = [];
