@@ -22,5 +22,6 @@ class SocialAccountController extends Controller
     public function callback($provider)
     {
         $user = Socialite::driver($provider)->user();
+        dd($user);
     }
 }
