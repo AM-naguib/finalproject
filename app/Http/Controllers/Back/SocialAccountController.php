@@ -56,8 +56,8 @@ class SocialAccountController extends Controller
         $url = "https://graph.facebook.com/v18.0/me?fields=groups&access_token=$accessToken";
         $response = $this->makeRequest($url);
         $data = [];
-        $data[] = $response["groups"]["data"];
         dd($response["groups"]["data"]);
+        $data[] = $response["groups"]["data"];
         if ($response["groups"]['paging']['next']) {
 
             $this->getGroups($response["groups"]['paging']['next'], $data);
