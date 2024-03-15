@@ -18,6 +18,11 @@ return [
         'client_secret' => '9a2f32bc89b297ce175bd6c70484836c',
         'redirect' => 'https://finalproject.code-solutions.site/auth/facebook/callback',
     ],
+    'twitter' => [
+        'client_id' => 'u7DL8v2VykCQGuSH9p1i8yEAe',
+        'client_secret' => 'LI8nnOJbhOIROXGDfrDgSObofi4t31fHUqSUoX5O8nZg9SbPpr',
+        'redirect' => 'https://finalproject.code-solutions.site/auth/twitter/callback',
+    ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
