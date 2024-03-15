@@ -16,7 +16,7 @@ return [
     'facebook' => [
         'client_id' => '230048536330732',
         'client_secret' => '9a2f32bc89b297ce175bd6c70484836c',
-        'redirect' => 'https://code-solutions.site/auth/facebook/callback',
+        'redirect' => 'https://finalproject.code-solutions.site/auth/facebook/callback',
     ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
