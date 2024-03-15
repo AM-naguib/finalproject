@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiseController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Back\DashboardController;
+use App\Http\Controllers\Back\SocialAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,8 @@ Route::prefix('dashboard')->name('admin.')->group(function(){
 
 
 // socialise routes
-Route::get("auth/{provider}",[SocialiseController::class, 'provider']);
-Route::get("auth/{provider}/callback",[SocialiseController::class, 'callback']);
+Route::get("auth/{provider}",[SocialAccountController::class, 'provider']);
+Route::get("auth/{provider}/callback",[SocialAccountController::class, 'callback']);
 
 
 // Route::get('/dashboard', function () {
