@@ -33,6 +33,8 @@ class SocialAccountController extends Controller
             ]);
         }else{
             $token = $user->token;
+            $token_secret = $user->tokenSecret;
+            dd($token, $token_secret);
             AccessToken::create([
                 'token' => $token,
                 'dsdsd' => $token,
