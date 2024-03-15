@@ -25,8 +25,9 @@ Route::get('/',[HomeController::class, 'index']);
 
 // back routes
 Route::prefix('dashboard')->name('admin.')->group(function(){
-    Route::get("/",[DashboardController::class, 'index']);
-    Route::get("social-accounts",[DashboardController::class, 'index'])->name('social-accounts');
+    Route::get("/",[DashboardController::class, 'index'])->name('dashboard');
+    Route::get("social-accounts",[SocialAccountController::class, 'index'])->name('social-accounts');
+    Route::get("social-accounts/fbgroups",[SocialAccountController::class, 'fbGroups'])->name('fbgroups');
 });
 
 
