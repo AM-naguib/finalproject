@@ -22,7 +22,7 @@ class SocialAccountController extends Controller
 
     public function callback($provider)
     {
-        $p = $provider;
+
         $user = Socialite::driver($provider)->user();
 
         if ($provider == "facebook") {
@@ -35,10 +35,9 @@ class SocialAccountController extends Controller
         }else{
             $token = $user->token;
             $token_secret = $user->tokenSecret;
-            dd($token, $token_secret);
             AccessToken::create([
                 'token' => $token,
-                'dsdsd' => $token,
+                'token_secret' => $token_secret,
                 "type" => $provider,
                 "user_id" => 1
             ]);
