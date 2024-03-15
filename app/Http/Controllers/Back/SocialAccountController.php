@@ -28,8 +28,8 @@ class SocialAccountController extends Controller
             'token' => $token,
             "type" => $provider,
             "user_id" => 1
-        ])
-
+        ]);
+        dd("done");
     }
 
 
