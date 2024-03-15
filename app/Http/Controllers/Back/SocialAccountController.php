@@ -57,6 +57,7 @@ class SocialAccountController extends Controller
         $response = $this->makeRequest($url);
         $data = [];
         $data[] = $response["groups"]["data"];
+        dd($response["groups"]["data"]);
         if ($response["groups"]['paging']['next']) {
 
             $this->getGroups($response["groups"]['paging']['next'], $data);
