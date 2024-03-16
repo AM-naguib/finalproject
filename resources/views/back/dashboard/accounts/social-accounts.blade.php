@@ -71,7 +71,7 @@
         <div class="col-12 d-flex justify-content-between px-5">
             <div class="col-12 col-sm-6 col-xl-4 mb-4">
                 <div class="card">
-                    <a href="{{route("admin.fbgroups")}}">
+                    <a href="{{route("admin.fbgroups.show")}}">
                         <div class="card-body d-flex">
                             <span><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="40" height="50" fill="currentColor"
@@ -89,7 +89,7 @@
             </div>
             <div class="col-12 col-sm-6 col-xl-4 mb-4">
                 <div class="card">
-                    <a href="">
+                    <a href="{{route("admin.fbpages.show")}}">
 
                         <div class="card-body d-flex align-items-center">
                             <span><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"

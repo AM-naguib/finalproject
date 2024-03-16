@@ -50,49 +50,6 @@ class SocialAccountController extends Controller
         dd("done");
     }
 
-    public function fbGroups()
-    {
-        $accessToken = 'EAADROllKAewBOZC1jSDvaly4GvkCvW6rl4us57wCVQMrZCYJeilNlphrgTZASlBIti8QewPqevg0ImJtBmZBFIrm23sO5EDIp6Dv4RaOD0x4eiN303Or2ZARIqEyafGInjCBpD7cZAmU8TEFTTABT0LxItslZAj';
-        $url = "https://graph.facebook.com/v18.0/me?fields=groups&access_token=$accessToken";
-        $response = $this->makeRequest($url);
-        $data = [];
-        dd($response["groups"]["data"]);
-        $data[] = $response["groups"]["data"];
-        if ($response["groups"]['paging']['next']) {
-
-            $this->getGroups($response["groups"]['paging']['next'], $data);
-        }
-        return view('back.dashboard.accounts.fb-groups', compact("groups", "next"));
-    }
-    public function getGroups($url, $data)
-    {
-
-        $response = $this->makeRequest($url);
-
-        $groups = $response['data'];
-        foreach ($groups as $group) {
-            $fbgroup = new FBGROUP();
-            $fbgroup->name = $group['name'];
-            $fbgroup->group_id = $group['id'];
-            $fbgroup->user_id = auth()->user()->id;
-            $fbgroup->save();
-        }
-
-        if ($response['paging']['next'] != null) {
-            $next = $response['paging']['next'];
-            $this->getGroups($next, $data);
-
-        }
-        return $groups;
-    }
-
-
-    public function makeRequest($url)
-    {
-
-        $response = Http::get($url);
-        return $response->json();
-    }
 
 
 

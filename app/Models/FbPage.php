@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FBGROUP extends Model
+class FbPage extends Model
 {
     use HasFactory;
 

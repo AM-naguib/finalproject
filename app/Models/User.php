@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function pages(){
+        return $this->hasMany(FbPage::class);
+    }
+    public function groups(){
+        return $this->hasMany(FBGROUP::class);
+    }
 }

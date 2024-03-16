@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiseController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Back\FbPageController;
+use App\Http\Controllers\Back\FbGroupController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SocialAccountController;
 
@@ -27,7 +30,10 @@ Route::get('/',[HomeController::class, 'index']);
 Route::prefix('dashboard')->name('admin.')->group(function(){
     Route::get("/",[DashboardController::class, 'index'])->name('dashboard');
     Route::get("social-accounts",[SocialAccountController::class, 'index'])->name('social-accounts');
-    Route::get("social-accounts/fbgroups",[SocialAccountController::class, 'fbGroups'])->name('fbgroups');
+    Route::get("social-accounts/get-groups",[FbGroupController::class, 'getGroups'])->name('groups.get');
+    Route::get("social-accounts/show-groups",[FbGroupController::class, 'index'])->name('fbgroups.show');
+    Route::get("social-accounts/get-pages",[FbPageController::class, 'getPages'])->name('fbpages.get');
+    Route::get("social-accounts/show-pages",[FbPageController::class, 'index'])->name('fbpages.show');
 });
 
 
