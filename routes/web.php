@@ -4,13 +4,13 @@ use App\Models\FbPage;
 use Illuminate\Support\Facades\Route;
 
 
-use App\Http\Controllers\PostsController;
+
+
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SocialiseController;
+use App\Http\Controllers\Back\PostController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Back\FbPageController;
 use App\Http\Controllers\Back\FbGroupController;
-use App\Http\Controllers\Back\HistoryController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SocialAccountController;
 
@@ -44,7 +44,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::post("posts/pages-send-post", [FbPageController::class, "pagesSendPost"])->name("posts.pages-send-post");
 
     // Posts Routes
-    Route::get("posts/pages-add-post", [PostsController::class, "pagesAddPost"])->name("posts.pages-add-post");
+    Route::get("posts/pages-add-post", [PostController::class, "pagesAddPost"])->name("posts.pages-add-post");
 
 
     // History Routes
