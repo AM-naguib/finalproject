@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function groups(){
         return $this->hasMany(FBGROUP::class);
     }
+
+    public function accessTokens(){
+        return $this->hasMany(AccessToken::class);
+    }
 }

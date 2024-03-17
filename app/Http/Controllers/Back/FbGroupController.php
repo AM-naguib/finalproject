@@ -51,7 +51,12 @@ class FbGroupController extends Controller
         }
         return $groups;
     }
+    public function makeRequest($url)
+    {
 
+        $response = Http::get($url);
+        return $response->json();
+    }
 
 
 }
