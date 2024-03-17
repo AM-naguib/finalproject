@@ -32,7 +32,7 @@ Route::get("test", function () {
 });
 
 // back routes
-Route::prefix('dashboard')->name('admin.')->group(function () {
+Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
     Route::get("/", [DashboardController::class, 'index'])->name('dashboard');
     Route::get("social-accounts", [SocialAccountController::class, 'index'])->name('social-accounts');
     // Facebook Group Routes
