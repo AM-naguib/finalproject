@@ -22,8 +22,10 @@ class FbPageController extends Controller
     {
         FbPage::where("user_id", auth()->user()->id)->delete();
         $accessToken = AccessToken::where("user_id", auth()->user()->id)->first();
-        dd($accessToken->token);
+
         $url = "https://graph.facebook.com/v12.0/me/accounts?access_token=$accessToken";
+        dd($url);
+
         $this->storePages($url);
         return to_route('admin.fbpages.show');
 
