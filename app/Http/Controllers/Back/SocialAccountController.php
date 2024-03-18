@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Models\AccessToken;
-use App\Models\FBGROUP;
+use App\Models\FbGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
@@ -21,7 +21,7 @@ class SocialAccountController extends Controller
 
     public function provider($provider)
     {
-        return Socialite::driver($provider)->redirect();
+        return Socialite::driver("twitter")->redirect();
     }
 
     public function callback($provider)

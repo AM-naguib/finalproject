@@ -48,7 +48,7 @@ class User extends Authenticatable
         return $this->hasMany(FbPage::class);
     }
     public function groups(){
-        return $this->hasMany(FBGROUP::class);
+        return $this->hasMany(FbGroup::class);
     }
 
     public function accessTokens(){

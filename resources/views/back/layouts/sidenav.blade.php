@@ -124,9 +124,8 @@
                     <ul class="flex-column nav">
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.posts.pages-add-post') }}">
                                 <span class="sidebar-text">Post in FB Pages</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="../tables/bootstrap-tables.html">
-                                <span class="sidebar-text">Bootstrap
-                                    Tables</span></a>
+                        <li class="nav-item"><a class="nav-link" href="{{route("admin.posts.groups-add-post")}}">
+                                <span class="sidebar-text">Post in FB Groups</span></a>
                         </li>
                     </ul>
                 </div>

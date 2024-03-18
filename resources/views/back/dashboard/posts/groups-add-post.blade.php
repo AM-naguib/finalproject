@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="row justify-content-lg-center">
-        <div class="h1">Add Post To Pages</div>
+        <div class="h1">Add Post To Groups</div>
         <div class="col-12 mb-4">
             <form action="{{route("admin.posts.pages-send-post")}}" method="post">
 
@@ -40,15 +40,15 @@
                 <div class="mb-3">
                     <label for="select-page">Select Page</label>
                     <select class="form-select" name="pages[]" multiple aria-label="multiple select example" id="select-page" style="height: 200px" >
-                        @if (count($pages) > 0)
-                        @foreach ($pages as $page )
-                        <option value="{{$page->page_id}}">{{$page->name}}</option>
+                        @if (count($groups) > 0)
+                        @foreach ($groups as $group )
+                        <option value="{{$group->group_id}}">{{$group->name}}</option>
 
                         @endforeach
                         @endif
                     </select>
                 </div>
-
+                <button class="btn btn-info mb-3" type="button">Draft</button>
                 <button class="btn form-control bg-success text-white" type="submit">Send Post</button>
             </form>
         </div>

@@ -45,6 +45,9 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
 
     // Posts Routes
     Route::get("posts/pages-add-post", [PostController::class, "pagesAddPost"])->name("posts.pages-add-post");
+    Route::get("posts/groups-add-post", [PostController::class, "groupsAddPost"])->name("posts.groups-add-post");
+    Route::get("posts/twitter-add-post", [PostController::class, "twitterAddPost"])->name("posts.twitter-add-post");
+
 
 
     // History Routes
