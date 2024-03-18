@@ -19,9 +19,9 @@ return [
         'redirect' => 'https://finalproject.code-solutions.site/auth/facebook/callback',
     ],
     'twitter' => [
-        'client_id' => 'u7DL8v2VykCQGuSH9p1i8yEAe',
-        'client_secret' => 'LI8nnOJbhOIROXGDfrDgSObofi4t31fHUqSUoX5O8nZg9SbPpr',
-        'redirect' => 'https://finalproject.code-solutions.site/auth/twitter/callback',
+        'client_id' => env('TWITTER_CLIENT_ID'),
+        'client_secret' => env('TWITTER_CLIENT_SECRET'),
+        'redirect' => env('TWITTER_REDIRECT_URI'),
     ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
