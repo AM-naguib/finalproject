@@ -45,7 +45,8 @@ class SocialAccountController extends Controller
                 'token' => $token,
                 'token_secret' => $token_secret,
                 "type" => $provider,
-                "user_id" => 1
+                "user_id" => 1,
+                "name" => $user->nickname
             ]);
         }
         dd("done");
