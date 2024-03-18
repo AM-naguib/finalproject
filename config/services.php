@@ -14,8 +14,8 @@ return [
     |
     */
     'facebook' => [
-        'client_id' => '230048536330732',
-        'client_secret' => '9a2f32bc89b297ce175bd6c70484836c',
+        'client_id' => '278378447948178',
+        'client_secret' => '18c5c792aded350ac0043a8ec70d92d9',
         'redirect' => 'https://finalproject.code-solutions.site/auth/facebook/callback',
     ],
     'twitter' => [
