@@ -19,8 +19,8 @@ return [
         'redirect' => 'https://finalproject.code-solutions.site/auth/facebook/callback',
     ],
     'twitter' => [
-        'client_id' => env('CONSUMER_KEY'),
-        'client_secret' => env('CONSUMER_SECRET'),
+        'client_id' => 'u7DL8v2VykCQGuSH9p1i8yEAe',
+        'client_secret' => 'LI8nnOJbhOIROXGDfrDgSObofi4t31fHUqSUoX5O8nZg9SbPpr',
         'redirect' => 'https://finalproject.code-solutions.site/auth/twitter/callback',
     ],
     'mailgun' => [
