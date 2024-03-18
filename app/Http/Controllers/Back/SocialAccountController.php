@@ -31,12 +31,13 @@ class SocialAccountController extends Controller
         $user = Socialite::driver($provider)->user();
 
         if ($provider == "facebook") {
-            dd($user);
+
             $token = $user->token;
             AccessToken::create([
                 'token' => $token,
                 "type" => $provider,
-                "user_id" => auth()->user()->id
+                "user_id" => auth()->user()->id,
+                "name" => $user->name
             ]);
         } else {
             $token = $user->token;
