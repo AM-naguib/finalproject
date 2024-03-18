@@ -21,7 +21,7 @@ class SocialAccountController extends Controller
 
     public function provider($provider)
     {
-        return Socialite::driver("twitter")->redirect();
+        return Socialite::driver($provider)->redirect();
     }
 
     public function callback($provider)
