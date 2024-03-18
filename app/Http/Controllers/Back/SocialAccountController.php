@@ -30,6 +30,7 @@ class SocialAccountController extends Controller
 
         $user = Socialite::driver($provider)->user();
 
+        dd($user);
         if ($provider == "facebook") {
             $token = $user->token;
             AccessToken::create([

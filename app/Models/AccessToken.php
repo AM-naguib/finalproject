@@ -12,7 +12,8 @@ class AccessToken extends Model
         'token',
         'token_secret',
         "user_id",
-        "type"
+        "type",
+        "name"
     ];
 
     public function returnIcon($name)
