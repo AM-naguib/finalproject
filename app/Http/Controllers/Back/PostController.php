@@ -25,8 +25,8 @@ class PostController extends Controller
     public function twitterAddPost(){
 
         $accounts = AccessToken::where("user_id",auth()->user()->id)->where("type","twitter")->get();
-        dd($accounts);
-        return view("back.dashboard.posts.twitter-add-post",compact("groups"));
+
+        return view("back.dashboard.posts.twitter-add-post",compact("accounts"));
     }
 
 

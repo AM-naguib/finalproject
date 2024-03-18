@@ -11,6 +11,7 @@ use App\Http\Controllers\Back\PostController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Back\FbPageController;
 use App\Http\Controllers\Back\FbGroupController;
+use App\Http\Controllers\Back\TwitterController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SocialAccountController;
 
@@ -42,6 +43,8 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::get("social-accounts/get-pages", [FbPageController::class, 'getPages'])->name('fbpages.get');
     Route::get("social-accounts/show-pages", [FbPageController::class, 'index'])->name('fbpages.show');
     Route::post("posts/pages-send-post", [FbPageController::class, "pagesSendPost"])->name("posts.pages-send-post");
+    // Twitter Routes
+    Route::post("posts/twitter-send-post", [TwitterController::class, "twitterSendPost"])->name("posts.twitter-send-post");
 
     // Posts Routes
     Route::get("posts/pages-add-post", [PostController::class, "pagesAddPost"])->name("posts.pages-add-post");

@@ -102,7 +102,6 @@ class FbPageController extends Controller
                 'message' => $message,
                 'access_token' => $token,
             ]);
-
             $success[] = $response->json()["id"];
         }
         return $success;
@@ -117,7 +116,7 @@ class FbPageController extends Controller
                 "user_id" => auth()->user()->id,
                 "type" => "FaceBook Page",
                 "content" => $content,
-                "post_link" => $post
+                "post_link" => "https://facebook.com/".$post
             ]);
         }
 

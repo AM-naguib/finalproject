@@ -127,6 +127,9 @@
                         <li class="nav-item"><a class="nav-link" href="{{route("admin.posts.groups-add-post")}}">
                                 <span class="sidebar-text">Post in FB Groups</span></a>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="{{route("admin.posts.twitter-add-post")}}">
+                            <span class="sidebar-text">Post in Twitter</span></a>
+                    </li>
                     </ul>
                 </div>
             </li>
