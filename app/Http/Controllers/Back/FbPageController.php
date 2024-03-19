@@ -21,7 +21,7 @@ class FbPageController extends Controller
     public function getPages()
     {
         FbPage::where("user_id", auth()->user()->id)->delete();
-        $accessToken = AccessToken::where("user_id", auth()->user()->id)->first();
+        $accessToken = AccessToken::where("user_id", auth()->user()->id)->where("type", "facebook")->first();
 
         $url = "https://graph.facebook.com/v12.0/me/accounts?access_token=$accessToken->token";
 
