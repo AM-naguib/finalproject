@@ -33,8 +33,8 @@ class FbPageController extends Controller
 
     public function storePages($url)
     {
+        dd($url);
         $data = $this->makeRequest($url);
-        dd($data);
         $pages = $data['data'];
 
         foreach ($pages as $page) {
