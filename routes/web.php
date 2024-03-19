@@ -39,6 +39,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     // Facebook Group Routes
     Route::get("social-accounts/get-groups", [FbGroupController::class, 'getGroups'])->name('groups.get');
     Route::get("social-accounts/show-groups", [FbGroupController::class, 'index'])->name('fbgroups.show');
+    Route::post("posts/groups-send-post", [FbGroupController::class, "groupsSendPost"])->name("posts.groups-send-post");
     // Facebook Page Routes
     Route::get("social-accounts/get-pages", [FbPageController::class, 'getPages'])->name('fbpages.get');
     Route::get("social-accounts/show-pages", [FbPageController::class, 'index'])->name('fbpages.show');

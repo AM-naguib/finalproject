@@ -30,7 +30,7 @@
     <div class="row justify-content-lg-center">
         <div class="h1">Add Post To Groups</div>
         <div class="col-12 mb-4">
-            <form action="{{route("admin.posts.pages-send-post")}}" method="post">
+            <form action="{{route("admin.posts.groups-send-post")}}" method="post">
 
                 @csrf
                 <div class="mb-3">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="select-page">Select Page</label>
-                    <select class="form-select" name="pages[]" multiple aria-label="multiple select example" id="select-page" style="height: 200px" >
+                    <select class="form-select" name="groups[]" multiple aria-label="multiple select example" id="select-page" style="height: 200px" >
                         @if (count($groups) > 0)
                         @foreach ($groups as $group )
                         <option value="{{$group->group_id}}">{{$group->name}}</option>
