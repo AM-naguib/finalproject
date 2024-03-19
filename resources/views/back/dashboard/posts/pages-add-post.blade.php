@@ -29,6 +29,7 @@
     </div>
     <div class="row justify-content-lg-center">
         <div class="h1">Add Post To Pages</div>
+        @include("back.dashboard.inc.message")
         <div class="col-12 mb-4">
             <form action="{{route("admin.posts.pages-send-post")}}" method="post">
 

@@ -62,6 +62,11 @@ class FbGroupController extends Controller
     }
 
     public function groupsSendPost(Request $request){
+
+        $request->validate([
+            "content" => "required|string",
+            "groups" => "required|array",
+        ]);
         $content = $request->content;
         $groups = $request->groups;
         $token = $this->getAccountToken();

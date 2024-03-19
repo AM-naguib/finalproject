@@ -88,6 +88,7 @@ class FbPageController extends Controller
         foreach ($ids as $id) {
             $url = "https://graph.facebook.com/v12.0/$id?fields=access_token&access_token=$token";
             $res = $this->makeRequest($url);
+            dd($res);
             $pagesWithTokens[$res["id"]] = $res['access_token'];
         }
         return $pagesWithTokens;
