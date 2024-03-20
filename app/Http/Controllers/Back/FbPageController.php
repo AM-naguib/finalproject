@@ -103,7 +103,7 @@ class FbPageController extends Controller
 
     public function makePost($tokens, $message, $photoPath)
 {
-
+dd($photoPath);
     $errors = [];
     $success = [];
     foreach ($tokens as $id => $token) {
