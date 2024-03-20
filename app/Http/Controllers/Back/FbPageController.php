@@ -103,10 +103,10 @@ class FbPageController extends Controller
 
     public function makePost($tokens, $message, $photoPath)
 {
-    
+
     $errors = [];
     $success = [];
-
+dd($photoPath);
     foreach ($tokens as $id => $token) {
         // First, upload the photo to get its Facebook ID
         $photoUploadResponse = Http::post("https://graph.facebook.com/$id/photos", [
