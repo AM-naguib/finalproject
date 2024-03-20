@@ -106,12 +106,11 @@ class FbPageController extends Controller
 
     $errors = [];
     $success = [];
-dd($photoPath);
     foreach ($tokens as $id => $token) {
         // First, upload the photo to get its Facebook ID
         $photoUploadResponse = Http::post("https://graph.facebook.com/$id/photos", [
             'access_token' => $token,
-            'url' => $photoPath,
+            'url' => "https://finalproject.code-solutions.site/".$photoPath,
             'published' => false, // Set to false to upload the photo without posting it
         ]);
 dd($photoUploadResponse->json());
