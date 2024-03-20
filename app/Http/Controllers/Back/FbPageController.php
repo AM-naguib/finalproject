@@ -102,41 +102,37 @@ class FbPageController extends Controller
     }
 
     public function makePost($tokens, $message, $photoPath)
-{
-dd($photoPath);
-    $errors = [];
-    $success = [];
-    foreach ($tokens as $id => $token) {
-        // First, upload the photo to get its Facebook ID
-        $photoUploadResponse = Http::post("https://graph.facebook.com/$id/photos", [
-            'access_token' => $token,
-            'url' => "https://finalproject.code-solutions.site/".$photoPath,
-            'published' => false, // Set to false to upload the photo without posting it
-        ]);
-dd($photoUploadResponse->json());
-        if($photoUploadResponse->successful()) {
-            $photoId = $photoUploadResponse->json()['id'];
-
-            // Then, create a post with the uploaded photo
-            $postResponse = Http::post("https://graph.facebook.com/$id/feed", [
-                'message' => $message,
+    {
+        $errors = [];
+        $success = [];
+        foreach ($tokens as $id => $token) {
+            // upload photo without posting it
+            $photoUploadResponse = Http::post("https://graph.facebook.com/$id/photos", [
                 'access_token' => $token,
-                'attached_media' => json_encode([['media_fbid' => $photoId]]),
+                'url' => "https://code-solutions.site/USED-Gift-Card.png",
+                'published' => false,
             ]);
 
-            if($postResponse->successful()) {
-                $success[] = $postResponse->json()["id"];
+            if ($photoUploadResponse->successful()) {
+                $photoId = $photoUploadResponse->json()['id'];
+                // Then, create a post with the uploaded photo
+                $postResponse = Http::post("https://graph.facebook.com/$id/feed", [
+                    'message' => $message,
+                    'access_token' => $token,
+                    'attached_media' => json_encode([['media_fbid' => $photoId]]),
+                    'published' => true,
+                ]);
+                if ($postResponse->successful()) {
+                    $success[] = $postResponse->json()["id"];
+                } else {
+                    $errors[] = "Failed to post photo for $id: " . $postResponse->body();
+                }
             } else {
-                $errors[] = "Failed to post photo for $id: " . $postResponse->body();
+                $errors[] = "Failed to upload photo for $id: " . $photoUploadResponse->body();
             }
-        } else {
-            $errors[] = "Failed to upload photo for $id: " . $photoUploadResponse->body();
         }
+        return ['success' => $success, 'errors' => $errors];
     }
-
-    // You might want to return both success and error information
-    return ['success' => $success, 'errors' => $errors];
-}
 
 
 

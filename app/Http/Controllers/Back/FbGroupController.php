@@ -74,7 +74,7 @@ class FbGroupController extends Controller
             $imagePath = $request->file("image")->getPathname();
             $imageName = $request->file("image")->getClientOriginalName();
         }
-        
+
 
         $content = $request->content;
         $groups = $request->groups;
@@ -107,17 +107,16 @@ class FbGroupController extends Controller
                         ])->json();
 
             } else {
-
                 $postResponse = Http::post("https://graph.facebook.com/{$group}/feed", [
                     'message' => $content,
                     'access_token' => $token,
                 ])->json();
             }
-
-            if (isset ($postResponse["id"])) {
+            if (isset($postResponse["id"])) {
                 $success[] = $postResponse["id"];
             }
         }
+
         return $success;
     }
 
