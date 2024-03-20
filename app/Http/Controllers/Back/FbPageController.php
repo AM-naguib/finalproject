@@ -66,7 +66,7 @@ class FbPageController extends Controller
 
         if ($request->hasFile("image")) {
 
-            $imagePath = $request->file("image")->getPathname();
+            $imagePath = $request->file("image")->store("public");
             $imageName = $request->file("image")->getClientOriginalName();
         }
 
@@ -103,6 +103,7 @@ class FbPageController extends Controller
 
     public function makePost($tokens, $message, $photoPath)
 {
+    
     $errors = [];
     $success = [];
 
