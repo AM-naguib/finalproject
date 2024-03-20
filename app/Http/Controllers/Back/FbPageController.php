@@ -60,14 +60,21 @@ class FbPageController extends Controller
     {
         $request->validate([
             "content" => "required|string",
-            "pages" => "required"
+            "pages" => "required",
+            "image" => "nullable|image|mimes:png,jpg,jpeg,webp"
         ]);
+
+        if ($request->hasFile("image")) {
+
+            $imagePath = $request->file("image")->getPathname();
+            $imageName = $request->file("image")->getClientOriginalName();
+        }
+
         $accountToken = $this->getAccountToken();
 
         $pagesTokens = $this->getPagesToken($request->pages, $accountToken);
-
-        $successPosts = $this->makePost($pagesTokens, $request->content);
-        $this->saveHistory($successPosts,$request->content);
+        $successPosts = $this->makePost($pagesTokens, $request->content, $imagePath);
+        $this->saveHistory($successPosts, $request->content);
 
         return redirect()->route("admin.history")->with("success", "Posts sent successfully");
 
@@ -94,30 +101,55 @@ class FbPageController extends Controller
         return $pagesWithTokens;
     }
 
-    public function makePost($tokens, $message)
-    {
-        $errors = [];
-        $success = [];
-        foreach ($tokens as $id => $token) {
-            $response = Http::post("https://graph.facebook.com/$id/feed", [
+    public function makePost($tokens, $message, $photoPath)
+{
+    $errors = [];
+    $success = [];
+
+    foreach ($tokens as $id => $token) {
+        // First, upload the photo to get its Facebook ID
+        $photoUploadResponse = Http::post("https://graph.facebook.com/$id/photos", [
+            'access_token' => $token,
+            'url' => $photoPath,
+            'published' => false, // Set to false to upload the photo without posting it
+        ]);
+dd($photoUploadResponse->json());
+        if($photoUploadResponse->successful()) {
+            $photoId = $photoUploadResponse->json()['id'];
+
+            // Then, create a post with the uploaded photo
+            $postResponse = Http::post("https://graph.facebook.com/$id/feed", [
                 'message' => $message,
                 'access_token' => $token,
+                'attached_media' => json_encode([['media_fbid' => $photoId]]),
             ]);
-            $success[] = $response->json()["id"];
+
+            if($postResponse->successful()) {
+                $success[] = $postResponse->json()["id"];
+            } else {
+                $errors[] = "Failed to post photo for $id: " . $postResponse->body();
+            }
+        } else {
+            $errors[] = "Failed to upload photo for $id: " . $photoUploadResponse->body();
         }
-        return $success;
     }
 
+    // You might want to return both success and error information
+    return ['success' => $success, 'errors' => $errors];
+}
 
 
-    public function saveHistory($posts,$content){
 
-        foreach ($posts as $post){
+
+    public function saveHistory($posts, $content)
+    {
+
+        foreach ($posts as $post) {
             History::create([
                 "user_id" => auth()->user()->id,
                 "type" => "FaceBook Page",
                 "content" => $content,
-                "post_link" => "https://facebook.com/".$post
+                "post_link" => "https://facebook.com/" . $post
             ]);
         }
 

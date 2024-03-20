@@ -1,5 +1,5 @@
 @extends('back.layouts.app')
-@section("posts","show")
+@section('posts', 'show')
 @section('content')
     <div class="py-4">
         <div class="dropdown">
@@ -29,9 +29,9 @@
     </div>
     <div class="row justify-content-lg-center">
         <div class="h1">Add Post To Pages</div>
-        @include("back.dashboard.inc.message")
+        @include('back.dashboard.inc.message')
         <div class="col-12 mb-4">
-            <form action="{{route("admin.posts.pages-send-post")}}" method="post">
+            <form action="{{ route('admin.posts.pages-send-post') }}" method="post" enctype="multipart/form-data">
 
                 @csrf
                 <div class="mb-3">
@@ -40,16 +40,19 @@
                 </div>
                 <div class="mb-3">
                     <label for="select-page">Select Page</label>
-                    <select class="form-select" name="pages[]" multiple aria-label="multiple select example" id="select-page" style="height: 200px" >
+                    <select class="form-select" name="pages[]" multiple aria-label="multiple select example"
+                        id="select-page" style="height: 200px">
                         @if (count($pages) > 0)
-                        @foreach ($pages as $page )
-                        <option value="{{$page->page_id}}">{{$page->name}}</option>
-
-                        @endforeach
+                            @foreach ($pages as $page)
+                                <option value="{{ $page->page_id }}">{{ $page->name }}</option>
+                            @endforeach
                         @endif
                     </select>
                 </div>
-
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Add image</label>
+                    <input class="form-control" type="file" id="formFile" name="image">
+                </div>
                 <button class="btn form-control bg-success text-white" type="submit">Send Post</button>
             </form>
         </div>

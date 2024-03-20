@@ -4,10 +4,10 @@
 
     <div class="row justify-content-lg-center py-4">
         <div class="h1">Add Post To Groups</div>
-@include("back.dashboard.inc.message")
+        @include('back.dashboard.inc.message')
         <div class="col-12 mb-4">
 
-            <form action="{{ route('admin.posts.groups-send-post') }}" method="post">
+            <form action="{{ route('admin.posts.groups-send-post') }}" method="post" enctype="multipart/form-data">
 
                 @csrf
                 <div class="mb-3">
@@ -25,7 +25,11 @@
                         @endif
                     </select>
                 </div>
-                <button class="btn btn-info mb-3" type="button">Draft</button>
+                {{-- <button class="btn btn-info mb-3" type="button">Draft</button> --}}
+                <div class="mb-3">
+                    <label for="formFile" class="form-label" >Add image</label>
+                    <input class="form-control" type="file" id="formFile" name="image">
+                </div>
                 <button class="btn form-control bg-success text-white" type="submit">Send Post</button>
             </form>
         </div>
