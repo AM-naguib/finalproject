@@ -58,6 +58,7 @@ class FbPageController extends Controller
 
     public function pagesSendPost(Request $request)
     {
+        $imageLink = null;
         $request->validate([
             "content" => "required|string",
             "pages" => "required",
@@ -65,15 +66,13 @@ class FbPageController extends Controller
         ]);
 
         if ($request->hasFile("image")) {
-
-            $imagePath = $request->file("image")->store("public");
-            $imageName = $request->file("image")->getClientOriginalName();
+            $imageLink = $request->file("image")->store("public");
         }
 
         $accountToken = $this->getAccountToken();
 
         $pagesTokens = $this->getPagesToken($request->pages, $accountToken);
-        $successPosts = $this->makePost($pagesTokens, $request->content, $imagePath);
+        $successPosts = $this->makePost($pagesTokens, $request->content, $imageLink);
         $this->saveHistory($successPosts, $request->content);
 
         return redirect()->route("admin.history")->with("success", "Posts sent successfully");
@@ -106,32 +105,30 @@ class FbPageController extends Controller
         $errors = [];
         $success = [];
         foreach ($tokens as $id => $token) {
-            // upload photo without posting it
-            $photoUploadResponse = Http::post("https://graph.facebook.com/$id/photos", [
-                'access_token' => $token,
-                'url' => "https://code-solutions.site/USED-Gift-Card.png",
-                'published' => false,
-            ]);
 
-            if ($photoUploadResponse->successful()) {
-                $photoId = $photoUploadResponse->json()['id'];
-                // Then, create a post with the uploaded photo
+            // upload photo without posting it
+
+            if ($photoPath == null) {
+                $postResponse = Http::post("https://graph.facebook.com/$id/feed", [
+                    'message' => $message,
+                    'access_token' => $token,
+                    'published' => true,
+                ]);
+                $success[] = $postResponse->json()['id'];
+            } else {
+                $photoUrl = "https://code-solutions.site/USED-Gift-Card.png";
+                $photoId = $this->photoUpload($id, $token, $photoUrl);
                 $postResponse = Http::post("https://graph.facebook.com/$id/feed", [
                     'message' => $message,
                     'access_token' => $token,
                     'attached_media' => json_encode([['media_fbid' => $photoId]]),
                     'published' => true,
                 ]);
-                if ($postResponse->successful()) {
-                    $success[] = $postResponse->json()["id"];
-                } else {
-                    $errors[] = "Failed to post photo for $id: " . $postResponse->body();
-                }
-            } else {
-                $errors[] = "Failed to upload photo for $id: " . $photoUploadResponse->body();
+                $success[] = $postResponse->json()['id'];
+
             }
         }
-        return ['success' => $success, 'errors' => $errors];
+        return $success;
     }
 
 
@@ -151,4 +148,18 @@ class FbPageController extends Controller
 
     }
 
+
+
+    public function photoUpload($pageId, $token, $photoUrl)
+    {
+        $photoUploadResponse = Http::post("https://graph.facebook.com/$pageId/photos", [
+            'access_token' => $token,
+            'url' => $photoUrl,
+            'published' => false,
+        ]);
+        return $photoUploadResponse->json()['id'];
+
+    }
 }
+
+

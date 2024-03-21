@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlanController;
 use App\Models\FbPage;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,7 @@ Route::get("test", function () {
 // back routes
 Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
     Route::get("/", [DashboardController::class, 'index'])->name('dashboard');
+    Route::get("pricing", [DashboardController::class, 'pricing'])->name('pricing');
     Route::get("social-accounts", [SocialAccountController::class, 'index'])->name('social-accounts');
     // Facebook Group Routes
     Route::get("social-accounts/get-groups", [FbGroupController::class, 'getGroups'])->name('groups.get');
@@ -52,10 +54,14 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::get("posts/groups-add-post", [PostController::class, "groupsAddPost"])->name("posts.groups-add-post");
     Route::get("posts/twitter-add-post", [PostController::class, "twitterAddPost"])->name("posts.twitter-add-post");
 
-
-
     // History Routes
     Route::get("history", [DashboardController::class, 'history'])->name('history');
+
+    // Plans Routes
+    Route::resource("plans",PlanController::class);
+
+    // pricing routes
+
 });
 
 
