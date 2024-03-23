@@ -35,9 +35,7 @@ class FbGroupController extends Controller
 
     public function storeGroups($url)
     {
-
         $response = $this->makeRequest($url);
-
         $groups = $response['data'];
         foreach ($groups as $group) {
             $fbgroup = new FbGroup();
@@ -50,13 +48,11 @@ class FbGroupController extends Controller
         if (isset ($response['paging']['next'])) {
             $next = $response['paging']['next'];
             $this->storeGroups($next);
-
         }
         return $groups;
     }
     public function makeRequest($url)
     {
-
         $response = Http::get($url);
         return $response->json();
     }
