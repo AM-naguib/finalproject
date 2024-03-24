@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\PlanController;
-use App\Models\FbPage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 
 
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Back\PostController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Back\FbPageController;
 use App\Http\Controllers\Back\FbGroupController;
 use App\Http\Controllers\Back\TwitterController;
+use App\Http\Controllers\Back\UserSiteController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SocialAccountController;
 
@@ -58,11 +59,37 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::get("history", [DashboardController::class, 'history'])->name('history');
 
     // Plans Routes
-    Route::resource("plans",PlanController::class);
+    Route::resource("plans", PlanController::class);
 
     // pricing routes
 
+
+    // Sites Routes
+    Route::resource("sites", UserSiteController::class);
+
+
 });
+Route::get("get", function (Request $request) {
+    $data = $request->all();
+    if (isset ($data['post_title']) && $data['post_url']&& $data['site_url']) {
+
+        $post_title = $data['post_title'];
+        $post_url = $data['post_url'];
+        $site_url = $data['site_url'];
+
+
+        $client = new Goutte\Client();
+        $res = $client->request("GET", $site_url);
+        $res->filter($post_title)->each(function($titleNode, $i) use ($res, $post_url) {
+            $urlNode = $res->filter($post_url)->eq($i);
+            echo $titleNode->text() . " - " . $urlNode->attr("href") . "<br>";
+        });
+
+
+    }
+
+});
+
 
 
 // socialise routes

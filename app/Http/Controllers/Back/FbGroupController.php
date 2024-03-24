@@ -4,44 +4,47 @@ namespace App\Http\Controllers\Back;
 
 use App\Models\FbGroup;
 use App\Models\History;
+use App\Jobs\StoreGroups;
 use App\Models\AccessToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class FbGroupController extends Controller
 {
+
+
+
+
+
     public function index()
     {
         $groups = FbGroup::where("user_id", auth()->user()->id)->get();
         return view('back.dashboard.accounts.groups-show', compact("groups"));
-
-
     }
     public function getGroups()
     {
-        FbGroup::where("user_id", auth()->user()->id)->delete();
+        $user_id= auth()->user()->id;
+        FbGroup::where("user_id", $user_id)->delete();
+
         $accessToken = auth()->user()->accessTokens()->where("type", "facebook")->first()->token;
-
-        $url = "https://graph.facebook.com/v18.0/me?fields=groups&access_token=$accessToken";
-        $response = $this->makeRequest($url);
-
-        if (isset ($response["groups"]['paging']['next'])) {
-
-            $this->storeGroups($response["groups"]['paging']['next']);
-        }
+        StoreGroups::dispatch($user_id, $accessToken);
         return to_route('admin.fbgroups.show');
     }
 
     public function storeGroups($url)
     {
+        $user_id= auth()->user()->id;
         $response = $this->makeRequest($url);
+
         $groups = $response['data'];
         foreach ($groups as $group) {
             $fbgroup = new FbGroup();
             $fbgroup->name = $group['name'];
             $fbgroup->group_id = $group['id'];
-            $fbgroup->user_id = auth()->user()->id;
+            $fbgroup->user_id = $user_id;
             $fbgroup->save();
         }
 
@@ -49,7 +52,24 @@ class FbGroupController extends Controller
             $next = $response['paging']['next'];
             $this->storeGroups($next);
         }
+        Log::info("5alas store groups");
+
+
         return $groups;
+    }
+
+    public function saveGroups($groups)
+    {
+        $user_id= 1;
+
+        foreach ($groups as $group) {
+            $fbgroup = new FbGroup();
+            $fbgroup->name = $group['name'];
+            $fbgroup->group_id = $group['id'];
+            $fbgroup->user_id = $user_id;
+            $fbgroup->save();
+        }
+        Log::info("5alas savegroup");
     }
     public function makeRequest($url)
     {
@@ -108,7 +128,7 @@ class FbGroupController extends Controller
                     'access_token' => $token,
                 ])->json();
             }
-            if (isset($postResponse["id"])) {
+            if (isset ($postResponse["id"])) {
                 $success[] = $postResponse["id"];
             }
         }
