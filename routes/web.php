@@ -13,6 +13,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Back\FbPageController;
 use App\Http\Controllers\Back\FbGroupController;
 use App\Http\Controllers\Back\TwitterController;
+use App\Http\Controllers\Back\SiteDataController;
 use App\Http\Controllers\Back\UserSiteController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\SocialAccountController;
@@ -67,27 +68,39 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     // Sites Routes
     Route::resource("sites", UserSiteController::class);
 
+    // Scraping Routes
+    Route::get("scraping", [SiteDataController::class, 'getPosts'])->name('scraping');
+
+
 
 });
+
 Route::get("get", function (Request $request) {
     $data = $request->all();
-    if (isset ($data['post_title']) && $data['post_url']&& $data['site_url']) {
+    if (isset($data['post_title']) && isset($data['post_url']) && isset($data['site_url'])) {
 
-        $post_title = $data['post_title'];
-        $post_url = $data['post_url'];
+        $post_title_selector = $data['post_title'];
+        $post_url_selector = $data['post_url'];
         $site_url = $data['site_url'];
-
 
         $client = new Goutte\Client();
         $res = $client->request("GET", $site_url);
-        $res->filter($post_title)->each(function($titleNode, $i) use ($res, $post_url) {
-            $urlNode = $res->filter($post_url)->eq($i);
-            echo $titleNode->text() . " - " . $urlNode->attr("href") . "<br>";
+
+        $result = [];
+
+        $res->filter($post_title_selector)->each(function ($titleNode, $i) use ($res, $post_url_selector, &$result) {
+            $urlNode = $res->filter($post_url_selector)->eq($i);
+            $title = $titleNode->text();
+            $url = $urlNode->attr("href");
+            $result[] = ['title' => $title, 'url' => $url];
         });
 
-
+        // Return the result as JSON
+        return response()->json($result);
     }
 
+    // Return an error response if required parameters are missing
+    return response()->json(['error' => 'Missing parameters'], 400);
 });
 
 

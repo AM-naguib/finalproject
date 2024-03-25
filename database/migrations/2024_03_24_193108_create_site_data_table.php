@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_sites', function (Blueprint $table) {
+        Schema::create('site_data', function (Blueprint $table) {
             $table->id();
-            $table->string("site_name");
-            $table->string("site_link");
-            $table->string("post_link_selector");
-            $table->string("post_title_selector");
-            $table->string("status")->default("active");
-            $table->foreignId("user_id")->constrained();
+            $table->foreignId('site_id')->constrained("user_sites")->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string("post_title");
+            $table->string("post_url");
+            $table->string("status");
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_sites');
+        Schema::dropIfExists('site_data');
     }
 };

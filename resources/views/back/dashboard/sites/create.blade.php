@@ -18,73 +18,101 @@
                     <div class="mb-3">
                         <label for="site_name" class="form-label">Site Name</label>
                         <input type="text" class="form-control" id="site_name" name="site_name"
-                            placeholder="Enter Site Name" value="">
+                            placeholder="Enter Site Name" value="{{old('site_name')}}">
                     </div>
                     <div class="mb-3">
                         <label for="site_link" class="form-label">Site Link</label>
                         <input type="url" class="form-control" id="site_link" name="site_link"
-                            placeholder="Enter Site Link" value="">
+                            placeholder="Enter Site Link" value="{{old('site_link')}}">
                     </div>
                     <div class="mb-3">
                         <label for="post_link_selector" class="form-label">Post Link Selector</label>
                         <input type="text" class="form-control" id="post_link_selector" name="post_link_selector"
-                            placeholder="Enter Post Link Selector" value="">
+                            placeholder="Enter Post Link Selector" value="{{old('post_link_selector')}}">
                     </div>
                     <div class="mb-3">
                         <label for="post_title_selector" class="form-label">Post Title Selector</label>
                         <input type="text" class="form-control" id="post_title_selector" name="post_title_selector"
-                            placeholder="Enter Post Title Selector" value="">
+                            placeholder="Enter Post Title Selector" value="{{old('post_title_selector')}}">
+                    </div>
+                    <button class="btn btn-primary" type="click" id="selectorCheck" data-bs-toggle="modal"
+                    data-bs-target="#modal-default">Check Selector</button>
+
+                    <div class="my-3">
+                        <label for="">Select Pages For Publish</label>
+                        <select name="pages[]" id="" class="form-select" multiple>
+                            @if (count($pages) > 0)
+                            @foreach ($pages as $page)
+                            <option value="{{$page->id}}">{{$page->name}}</option>
+                            @endforeach
+                            @endif
+                        </select>
                     </div>
                     <button type="submit" class="btn form-control  bg-success text-white">Add Site</button>
                 </form>
             </div>
         </div>
-        {{--
-            <script>
-                let form = document.querySelector('#form');
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    let formData = new FormData(form);
-                    let jsonData = {};
-                    formData.forEach((value, key) => {
-                        jsonData[key] = value;
-                    });
-                    let jsonString = JSON.stringify(jsonData);
-                    let xhr = new XMLHttpRequest();
-                    xhr.open(form.method, form.action);
-                    xhr.setRequestHeader("X-CSRF-TOKEN", form._token.value);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.setRequestHeader("Accept", "application/json");
-                    xhr.onload = () => {
-                        let messageContaner = document.querySelector('#message');
-                        let res = JSON.parse(xhr.responseText);
-                        const errorsArray = [];
-                        if (xhr.status == 200) {
-                            messageContaner.innerHTML = `<div class="alert alert-success">${res.message}</div>`
-                            form.reset();
-                        } else {
-                            className = "alert-danger";
-                            Object.keys(res.errors).forEach(key => {
-                                res.errors[key].forEach(error => {
-                                    errorsArray.push(error);
 
-                                });
-                            });
-                            let htmlErrors = "<ul>";
-                            errorsArray.forEach(item => {
-                                htmlErrors += `<li>${item}</li>`;
-                            });
-                            htmlErrors += "</ul>";
-                            messageContaner.innerHTML = `<div class="alert alert-danger">${htmlErrors}</div>`
+
+            <div class="modal fade" id="modal-default" tabindex="-1" aria-labelledby="modal-default" style="display: none;"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="h6 modal-title">Extracted Data</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+
+                        </div>
+                        <div class="modal-footer"> <button
+                                type="button" class="btn btn-link text-gray-600 ms-auto"
+                                data-bs-dismiss="modal">Close</button></div>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+            let selectorCheck = document.querySelector('#selectorCheck');
+            selectorCheck.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                let siteLink = document.querySelector('#site_link');
+                let postLink = document.querySelector('#post_link_selector');
+                let postTitle = document.querySelector('#post_title_selector');
+                postLink = encodeURIComponent(postLink.value);
+                postTitle = encodeURIComponent(postTitle.value);
+                $url =
+                    `http://127.0.0.1:1120/get?post_url=${postLink}&post_title=${postTitle}&site_url=${siteLink.value}`;
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", $url)
+                xhr.send();
+                xhr.onload = () => {
+                    let res = JSON.parse(xhr.responseText);
+                    let modal = document.querySelector('#modal-body');
+                    for(let i = 1; i< res.length; i++){
+                        if(i < 4){
+                            if(res[i].url == null || res[i].title == null){
+                                modal.innerHTML = "Selector Not Found"
+                            }else{
+                                if(i == 1){
+                                modal.innerHTML = ""
+
+                                }
+                                modal.innerHTML += `
+                                <p class="mb-1">Title:</p>
+                                <p class="mb-1">${res[i].title}</p>
+                                <p class="mb-1">Link:</p>
+                                <p class="mb-1">${res[i].url}</p>
+                                `
+                            }
                         }
-
                     }
-                    xhr.send(jsonString);
+                }
 
-
-                });
-            </script> --}}
-
+            })
+        </script>
 
     </div>
     </div>

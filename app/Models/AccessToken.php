@@ -30,4 +30,7 @@ class AccessToken extends Model
           ';
         }
     }
+    public function user_sites(){
+        return $this->belongsToMany(UserSite::class);
+    }
 }

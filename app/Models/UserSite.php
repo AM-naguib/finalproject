@@ -16,4 +16,8 @@ class UserSite extends Model
         "post_title_selector",
         "user_id"
     ];
+
+    public function FbPage(){
+        return $this->belongsToMany(AccessToken::class);
+    }
 }

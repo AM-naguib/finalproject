@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\FbPage;
 use App\Models\UserSite;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,9 @@ class UserSiteController extends Controller
      */
     public function create()
     {
-        return view("back.dashboard.sites.create");
+        $pages = FbPage::where("user_id", auth()->user()->id)->get();
+
+        return view("back.dashboard.sites.create" ,compact("pages"));
     }
 
     /**
@@ -31,6 +34,7 @@ class UserSiteController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $data = $request->validate([
             'site_name' => "required",
             "site_link" => "required|url|unique:user_sites,site_link",
